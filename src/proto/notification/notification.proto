@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package notification;
+option go_package = "gitlab.tiprotec.com/woow-pay/messaging-service-api/proto/notification";
+
+import "common/common.proto";
+
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+}
+
+message SendNotificationRequest {
+  string channel = 1; 
+  string transport = 2;
+
+  common.Contact contact = 3;
+  common.Template template = 4;
+  bool enable_tracking = 5;
+  common.Priority priority = 6;
+  string scheduled_at = 7;
+  common.Metadata metadata = 8;
+
+  // solo tenemos email por ahora
+  common.Deal deal = 9;
+}
+
+message SendNotificationResponse {
+  string id = 1;
+  string contact_id = 2;
+  string deal_id = 3;
+  string status = 4;
+  string created_at = 5;
+}

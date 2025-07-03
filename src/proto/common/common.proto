@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package common;
+option go_package = "gitlab.tiprotec.com/woow-pay/messaging-service-api/proto/common";
+
+message Contact {
+  string email = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string phone = 4;
+}
+
+message Template {
+  string id = 1;
+  map<string, string> variables = 2;
+}
+
+enum Priority {
+  PRIORITY_UNSPECIFIED = 0;
+  PRIORITY_LOW = 1;
+  PRIORITY_NORMAL = 2;
+  PRIORITY_HIGH = 3;
+}
+
+
+message Deal {
+  string id = 1;
+  string dealname = 2;
+  string stage = 3;
+  string amount = 4;
+  string close_date = 5;
+  string description = 6;
+  string nombre_producto = 7;
+  int32 tipo_notificacion = 8;
+  string url_pago_en_linea = 9;
+  string contact_us = 10;
+}
+
+message Metadata {
+  string order_id = 1;
+  string campaign = 2;
+  string event_id = 3;
+  int64 created_at = 4;
+}

@@ -1,0 +1,67 @@
+# Compiled output
+dist/
+build/
+node_modules/
+
+# TypeScript metadata
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Coverage/test output
+coverage/
+.nyc_output/
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# VSCode (ignore everything except useful config)
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+.temp/
+.tmp/
+*.tmp
+*.swp
+
+# Runtime data / locks / misc
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports
+report.*.json
+
+# Nest CLI cache (opcional)
+.nest/
+
+# Firebase / Serverless / other tools (si los usas)
+.firebase/
+.serverless/
