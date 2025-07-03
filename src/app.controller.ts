@@ -1,7 +1,6 @@
-// src/app.controller.ts
 import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 interface NotificationService {
   SendNotification(data: any): Observable<any>;
@@ -18,8 +17,8 @@ export class AppController implements OnModuleInit {
   }
 
   @Get()
-  testGrpc() {
-    return this.notificationService.SendNotification({
+  async testGrpc() {
+    const payload = {
       channel: 'email',
       transport: 'hubspot',
       contact: {
@@ -40,13 +39,13 @@ export class AppController implements OnModuleInit {
         },
       },
       enableTracking: true,
-      priority: 2, // PRIORITY_NORMAL (enum int)
+      priority: 2,
       scheduledAt: '',
       metadata: {
         orderId: 'ORD20250614-0015',
         campaign: 'test-notificacion',
         eventId: '',
-        createdAt: Math.floor(Date.now() / 1000), // int64 (segundos)
+        createdAt: Math.floor(Date.now() / 1000),
       },
       deal: {
         id: '',
@@ -60,6 +59,11 @@ export class AppController implements OnModuleInit {
         urlPagoEnLinea: 'https://sandbox-insurance-services.woowpay.mx/checkout?id=orden_001&t=5',
         contactUs: 'https://sandbox-insurance-services.woowpay.mx/contacto',
       },
-    });
+    };
+
+    console.log('🔍 Payload:', payload);
+    const res = await lastValueFrom(this.notificationService.SendNotification(payload));
+    console.log('✅ Response:', res);
+    return res;
   }
 }

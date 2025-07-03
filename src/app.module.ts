@@ -14,7 +14,7 @@ import { AppService } from './app.service';
         options: {
           package: 'notification',
           protoPath: join(process.cwd(), 'src/proto/notification/notification.proto'),
-          url: 'localhost:50051',
+          url: '4.tcp.us-cal-1.ngrok.io:10298', //cambiar esta url
           loader: {
             includeDirs: [join(process.cwd(), 'src/proto')],
           },
@@ -25,4 +25,4 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
