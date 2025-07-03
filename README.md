@@ -1,98 +1,138 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Cliente NestJS para gRPC (HubSpot Notification)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este proyecto es un **cliente NestJS mínimo** que consume un servicio gRPC (por ejemplo, tu microservicio en Go que envía notificaciones por HubSpot).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📦 Requisitos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js v18+
+- npm
+- Nest CLI (`npm install -g @nestjs/cli` si no lo tienes)
+- Acceso al archivo `.proto` de tu servicio
+- El servicio gRPC debe estar corriendo (local o vía túnel como `ngrok`)
 
-## Project setup
+---
+
+## 🧩 Instalación
+
+Clona el repositorio y entra a la carpeta:
 
 ```bash
-$ npm install
+git clone https://github.com/abrahamsantos-developer/grpc-nest-minimal.git
+cd grpc-nest-minimal
+npm install
 ```
 
-## Compile and run the project
+Instala las dependencias necesarias
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install --save-dev @grpc/proto-loader @grpc/grpc-js
 ```
 
-## Run tests
+*** Ya están incluidas en este proyecto, pero si clonas desde cero y faltan, instálalas
+
+---
+
+## ⚙️ Configuración
+
+Revisa el archivo:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+src/app.module.ts
 ```
 
-## Deployment
+Allí se configura el cliente gRPC con `ClientsModule.register`.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 🔁 Cambia la URL del servicio
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Por defecto, el cliente apunta a `localhost:50051`.
+
+Si estás usando un túnel (como `ngrok`), **modifica esto:**
+
+```ts
+url: 'dns:///<TU_HOST>:<PUERTO>',
+```
+
+Por ejemplo:
+
+```ts
+url: 'dns://4.tcp.us-cal-1.ngrok.io:10298',
+```
+
+> 💡 Importante: asegúrate que `ngrok` esté corriendo, y el servicio gRPC esté activo en ese puerto.
+
+---
+
+## ▶️ Ejecutar en modo watcher
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Esto compilará y observará los archivos (`tsc --watch` + `nest start`).
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 📬 Consumir el servicio gRPC
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Ya viene configurado un ejemplo simple en `AppController` con esta ruta:
 
-## Support
+```method
+GET /
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Internamente se construye un payload y se hace la llamada a:
 
-## Stay in touch
+```ts
+this.notificationService.SendNotification(payload)
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+El resultado se imprime en consola y también se devuelve como respuesta.
 
-## License
+Puedes cambiar el `payload` en `app.controller.ts`.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 🧪 Debug y Logs
+
+Si ves un error como:
+
+```error
+14 UNAVAILABLE: No connection established.
+```
+
+Revisa:
+
+- ¿El servicio gRPC está corriendo?
+- ¿Estás apuntando bien al host + puerto?
+- ¿El `.proto` fue cargado correctamente en `app.module.ts`?
+
+---
+
+## 📂 Estructura
+
+```estructura
+grpc-nest-minimal/
+├── proto/
+│   ├── common/
+│   │   └── common.proto
+│   └── notification/
+│       └── notification.proto
+├── src/
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   └── main.ts
+├── package.json
+└── tsconfig*.json
+```
+
+---
+
+## 📌 Notas
+
+- El proyecto **no sube `node_modules` ni `/dist`** gracias al `.gitignore`.
+- Usa `@nestjs/microservices` para crear el cliente gRPC.
+- Si lo clonas desde cero, solo necesitas `npm install` y `npm run start:dev`.
+
+---
